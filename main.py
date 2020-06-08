@@ -20,13 +20,25 @@ mysqlConn = {
 #     'password': 'gpshisdata2'
 # }
 
+# local
+# mongoConn = {
+#     'host': '192.168.10.41',
+#     'port': 27017,
+#     'db': 'gpshisdata',
+#     'authDb': 'gpshisdata',
+#     'userName': 'gpshi',
+#     'password': 'openstack'
+# }
+
+
+# production
 mongoConn = {
-    'host': '192.168.10.41',
-    'port': 27017,
+    'host': '10.0.1.186',
+    'port':8635 ,
     'db': 'gpshisdata',
-    'authDb': 'admin',
-    'userName': 'admin',
-    'password': 'openstack'
+    'authDb': 'gpshisdata',
+    'userName': 'gphis',
+    'password': 'Openstack#2020'
 }
 
 # 每次处理的数据量
