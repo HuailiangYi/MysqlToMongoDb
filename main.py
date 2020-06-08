@@ -1,6 +1,8 @@
+from __future__ import print_function
 from dbClient.mysqlClient import MysqlClient
 from dbClient.mongoClient import MongoClient
 from record.record import  Record
+
 # mysql 连接信息
 mysqlConn = {
     'host': '139.159.198.104',

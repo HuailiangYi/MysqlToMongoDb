@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pymysql
 import pandas as pd
 import json
