@@ -8,9 +8,17 @@ class MongoClient(object):
         db.authenticate(conn['userName'], conn['password'])
         self.myDb = self.__client[conn['db']]
 
-    def connect(self, dbName, dbCol):
-        self.myDb = self.__client[dbName]
-        self.myCol = self.myDb[dbCol]
+    def addIndex(self, collection):
+        myCollection = self.myDb[collection]
+        myCollection.create_index('vehicleid', background=True)
+        myCollection.create_index([('vehicleid', 1), ('gps_time', 1)], background=True)
+
+
+    def getDocument(self, name_prefix):
+        collection_names = self.myDb.list_collection_names(session=None)
+        return  [ name for name in collection_names if name.startswith(name_prefix)]
+
+
 
     def insertMany(self, collection, data):
         myCollection = self.myDb[collection]
