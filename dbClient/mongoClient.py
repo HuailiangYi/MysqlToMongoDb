@@ -1,5 +1,6 @@
 from __future__ import print_function
 import pymongo
+import datetime
 
 class MongoClient(object):
     def __init__(self, conn):
@@ -7,6 +8,20 @@ class MongoClient(object):
         db = self.__client[conn['authDb']]
         db.authenticate(conn['userName'], conn['password'])
         self.myDb = self.__client[conn['db']]
+
+    def updateTime(self, collection):
+        myCollection = self.myDb[collection]
+        for item in myCollection.find():
+            try:
+                update_time = item['gps_time'] + datetime.timedelta(hours=-8)
+                myCollection.update_one({"_id": item["_id"]}, {"$set": {"gps_time":update_time }})
+            except:
+                continue
+
+
+    def showIndex(self, collection):
+        myCollection = self.myDb[collection]
+        print(myCollection.index_information())
 
     def addIndex(self, collection):
         myCollection = self.myDb[collection]
@@ -17,7 +32,6 @@ class MongoClient(object):
     def getDocument(self, name_prefix):
         collection_names = self.myDb.list_collection_names(session=None)
         return  [ name for name in collection_names if name.startswith(name_prefix)]
-
 
 
     def insertMany(self, collection, data):

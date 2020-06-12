@@ -40,8 +40,12 @@ if __name__ == '__main__':
         # 存在该记录, 取出处理的数据量
         name_list.extend(record.getHandledNum("record"))
 
-    for name in  mongoDb.getDocument("tb_vehicle_status_his"):
+    collection_names = mongoDb.getDocument("tb_vehicle_status_his")
+    print("all collections: {}".format(collection_names))
+
+    for name in  collection_names:
         if name in name_list:
+            mongoDb.showIndex(name)
             continue
         print("Create index: {}".format(name))
         mongoDb.addIndex(name)
