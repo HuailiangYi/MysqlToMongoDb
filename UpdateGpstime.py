@@ -1,24 +1,24 @@
 from dbClient.mongoClient import MongoClient
 from record.record import  Record
 #
-# mongoConn = {
-#     'host': '10.0.1.186',
-#     'port':8635 ,
-#     'db': 'gpshisdata',
-#     'authDb': 'gpshisdata',
-#     'userName': 'gphis',
-#     'password': 'Openstack#2020'
-# }
+mongoConn = {
+    'host': '10.0.1.186',
+    'port':8635 ,
+    'db': 'gpshisdata',
+    'authDb': 'gpshisdata',
+    'userName': 'gphis',
+    'password': 'Openstack#2020'
+}
 
 # local
-mongoConn = {
-    'host': '192.168.10.41',
-    'port': 27017,
-    'db': 'gpshisdata',
-    'authDb': 'admin',
-    'userName': 'admin',
-    'password': 'openstack'
-}
+# mongoConn = {
+#     'host': '192.168.10.41',
+#     'port': 27017,
+#     'db': 'gpshisdata',
+#     'authDb': 'admin',
+#     'userName': 'admin',
+#     'password': 'openstack'
+# }
 
 
 
@@ -41,7 +41,20 @@ if __name__ == '__main__':
     collection_names = mongoDb.getDocument("tb_vehicle_status_his")
     print("all collections: {}".format(collection_names))
 
+    last_list = []
+
     for name in  collection_names:
+        if name in collection_names:
+            if name.startswith('tb_vehicle_status_his_20_06_') and name != "tb_vehicle_status_his_20_06_12":
+                print("更新表格：", name)
+                mongoDb.updateTime(name)
+
+                name_list.append(name)
+                record.updateHandledNum("record", name_list)
+            else:
+                last_list.append(name)
+
+    for name in  last_list:
         if name in collection_names:
             if name != "tb_vehicle_status_his_20_06_12":
                 print("更新表格：", name)
