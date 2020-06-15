@@ -18,6 +18,16 @@ class MongoClient(object):
             except:
                 continue
 
+    def updateTimeByCondition(self, collection, condition, gps_time):
+        myCollection = self.myDb[collection]
+        try:
+            update_time = gps_time + datetime.timedelta(hours=-8)
+            print(update_time)
+            myCollection.update_one(condition, {"$set": {"gps_time":update_time }})
+        except:
+            pass
+
+
 
     def showIndex(self, collection):
         myCollection = self.myDb[collection]
