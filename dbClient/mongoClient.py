@@ -9,6 +9,16 @@ class MongoClient(object):
         db.authenticate(conn['userName'], conn['password'])
         self.myDb = self.__client[conn['db']]
 
+    def getCount(self, collection):
+        myCollection = self.myDb[collection]
+        return  myCollection.find().count()
+
+    def getDataFromDocument(self, collection,  offset, limit):
+        myCollection = self.myDb[collection]
+        data =list(myCollection.find().skip(offset).limit(limit))
+        return len(data), data
+
+
     def updateTime(self, collection):
         myCollection = self.myDb[collection]
         for item in myCollection.find():
@@ -26,7 +36,6 @@ class MongoClient(object):
             myCollection.update_one(condition, {"$set": {"gps_time":update_time }})
         except:
             pass
-
 
 
     def showIndex(self, collection):
